@@ -1,0 +1,27 @@
+[project]
+name = "unit-commitment-problem-application"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10.3"
+dependencies = [
+    "matplotlib>=3.10.7",
+    "numpy>=2.2.6",
+    "pandas>=2.3.3",
+    "plotly>=6.3.1",
+    "pulp>=3.3.0",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.3.0",
+    "pytest>=8.4.2",
+    "ruff>=0.14.3",
+]
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+strict = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
