@@ -9,7 +9,6 @@ __pycache__/
 # Output
 output/
 *.png
-*.csv
 
 # IDE
 .vscode/
