@@ -1,0 +1,58 @@
+from datetime import datetime
+
+from pydantic import BaseModel, Field, field_validator
+
+
+class InputTimeSeriesData(BaseModel):
+    date: datetime = Field(..., description="日付 (YYYY-MM-DD)")
+    date_index: int = Field(..., description="日付インデックス")
+    demand: float = Field(..., description="電力需要 (MW)")
+
+
+class GeneratorParameters(BaseModel):
+    generator_id: str = Field(..., description="発電機ID")
+    pmin: float = Field(..., description="最小出力 (MW)")
+    pmax: float = Field(..., description="最大出力 (MW)")
+    cost_run: float = Field(..., description="運転コスト (円/MW)")
+    cost_start: float = Field(..., description="起動コスト (円/回)")
+    cost_stop: float = Field(..., description="停止コスト (円/回)")
+
+    @field_validator("pmin")
+    @classmethod
+    def validate_pmin(cls, v: float) -> float:
+        if v < 0:
+            raise ValueError("最小出力は0以上である必要があります")
+        return v
+
+    @field_validator("pmax")
+    @classmethod
+    def validate_pmax(cls, v: float) -> float:
+        if v < 0:
+            raise ValueError("最大出力は0以上である必要があります")
+        return v
+
+    @field_validator("cost_run")
+    @classmethod
+    def validate_cost_run(cls, v: float) -> float:
+        if v < 0:
+            raise ValueError("運転コストは0以上である必要があります")
+        return v
+
+    @field_validator("cost_start")
+    @classmethod
+    def validate_cost_start(cls, v: float) -> float:
+        if v < 0:
+            raise ValueError("起動コストは0以上である必要があります")
+        return v
+
+    @field_validator("cost_stop")
+    @classmethod
+    def validate_cost_stop(cls, v: float) -> float:
+        if v < 0:
+            raise ValueError("停止コストは0以上である必要があります")
+        return v
+
+
+class InputData(BaseModel):
+    timeseries: list[InputTimeSeriesData] = Field(..., description="電力需要データ")
+    parameters: GeneratorParameters = Field(..., description="発電機パラメータ")
