@@ -14,12 +14,28 @@ def preprocess_timeseries_data(input_data: pd.DataFrame) -> list[InputTimeSeries
     return data
 
 
-def preprocess_generator_parameters(input_data: pd.DataFrame) -> GeneratorParameters:
-    return GeneratorParameters(
-        generator_id=str(input_data["generator_id"].iloc[0]),
-        pmin=float(input_data["Pmin"].iloc[0]),
-        pmax=float(input_data["Pmax"].iloc[0]),
-        cost_run=float(input_data["cost_run"].iloc[0]),
-        cost_start=float(input_data["cost_start"].iloc[0]),
-        cost_stop=float(input_data["cost_stop"].iloc[0]),
-    )
+def preprocess_generator_parameters(
+    input_data: pd.DataFrame,
+) -> list[GeneratorParameters]:
+    parameters_list = []
+    for _, (_, row) in enumerate(input_data.iterrows()):
+        generator_id = str(row["generator_id"])
+        pmin = float(row["Pmin"])
+        pmax = float(row["Pmax"])
+        cost_run = float(row["cost_run"])
+        cost_start = float(row["cost_start"])
+        cost_stop = float(row["cost_stop"])
+        min_operation_time = int(row["min_operation_time"])
+        max_operation_time = int(row["max_operation_time"])
+        generator_parameters = GeneratorParameters(
+            generator_id=generator_id,
+            pmin=pmin,
+            pmax=pmax,
+            cost_run=cost_run,
+            cost_start=cost_start,
+            cost_stop=cost_stop,
+            min_operation_time=min_operation_time,
+            max_operation_time=max_operation_time,
+        )
+        parameters_list.append(generator_parameters)
+    return parameters_list

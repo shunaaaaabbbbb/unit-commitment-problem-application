@@ -1,4 +1,4 @@
-generator_id,Pmin,Pmax,cost_run,cost_start,cost_stop
-G1,40,205,5.09,168,102
-G2,122,286,3.28,171,81
-G3,108,336,5.93,166,50
+generator_id,Pmin,Pmax,cost_run,cost_start,cost_stop,min_operation_time,max_operation_time
+G1,40,205,5.09,168,102,20,100
+G2,122,286,3.28,171,81,20,100
+G3,108,336,5.93,166,50,20,100

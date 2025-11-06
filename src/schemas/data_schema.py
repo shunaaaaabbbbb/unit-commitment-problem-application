@@ -16,6 +16,8 @@ class GeneratorParameters(BaseModel):
     cost_run: float = Field(..., description="運転コスト (円/MW)")
     cost_start: float = Field(..., description="起動コスト (円/回)")
     cost_stop: float = Field(..., description="停止コスト (円/回)")
+    min_operation_time: int = Field(..., description="最低稼働期間 (時間)")
+    max_operation_time: int = Field(..., description="最大稼働期間 (時間)")
 
     @field_validator("pmin")
     @classmethod
@@ -55,4 +57,6 @@ class GeneratorParameters(BaseModel):
 
 class InputData(BaseModel):
     timeseries: list[InputTimeSeriesData] = Field(..., description="電力需要データ")
-    parameters: GeneratorParameters = Field(..., description="発電機パラメータ")
+    generator_parameters: list[GeneratorParameters] = Field(
+        ..., description="発電機パラメータ"
+    )
