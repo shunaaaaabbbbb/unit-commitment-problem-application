@@ -3,7 +3,7 @@ from src.schemas.data_schema import DailySchedule, StructuredOutput
 
 
 def create_schedules(solver: Solver) -> list[DailySchedule]:
-    daily_schedules = []
+    schedules = []
     for t in range(solver.num_timeseries):
         for p in range(solver.num_units):
             start = int(solver.start[t, p].value())
@@ -15,7 +15,7 @@ def create_schedules(solver: Solver) -> list[DailySchedule]:
                 + solver.cost_starts[p] * start
                 + solver.cost_stops[p] * stop
             )
-            daily_schedule = DailySchedule(
+            schedule = DailySchedule(
                 date=solver.timeseries[t].date,
                 generator_id=solver.generator_parameters[p].generator_id,
                 start=start,
@@ -24,8 +24,8 @@ def create_schedules(solver: Solver) -> list[DailySchedule]:
                 output=output,
                 cost=cost,
             )
-            daily_schedules.append(daily_schedule)
-    return daily_schedules
+            schedules.append(schedule)
+    return schedules
 
 
 def create_structured_output(schedules: list[DailySchedule]) -> StructuredOutput:

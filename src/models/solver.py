@@ -98,7 +98,8 @@ class Solver:
         # 発電機の出力制約
         for p in range(self.num_units):
             for t in range(self.num_timeseries):
-                self.model += self.pmins[p] <= self.output[t, p] <= self.pmaxs[p]
+                self.model += self.pmins[p] * self.operation[t, p] <= self.output[t, p]
+                self.model += self.output[t, p] <= self.pmaxs[p] * self.operation[t, p]
 
         # 各日の需要を満たす制約
         for t in range(self.num_timeseries):
