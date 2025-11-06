@@ -1,5 +1,6 @@
 import pandas as pd
 
+from src.pipelines.run_optimization import run_optimization
 from src.pipelines.run_preprocess import run_preprocess
 
 
@@ -9,10 +10,10 @@ def main() -> None:
     generator_parameters_df = pd.read_csv("data/generator_parameters_sample.csv")
     # 前処理
     input_data = run_preprocess(timeseries_df, generator_parameters_df)
-    print(input_data)
 
     # 最適化の実行
-    pass
+    model_output = run_optimization(input_data)
+    print(model_output.model)
 
     # 後処理
     pass
