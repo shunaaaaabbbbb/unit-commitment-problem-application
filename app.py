@@ -1,6 +1,7 @@
 import pandas as pd
 
 from src.pipelines.run_optimization import run_optimization
+from src.pipelines.run_postprocess import run_postprocess
 from src.pipelines.run_preprocess import run_preprocess
 
 
@@ -13,10 +14,10 @@ def main() -> None:
 
     # 最適化の実行
     model_output = run_optimization(input_data)
-    print(model_output.model)
 
     # 後処理
-    pass
+    structured_output = run_postprocess(model_output)
+    print(structured_output)
 
     # 結果の出力
     pass
