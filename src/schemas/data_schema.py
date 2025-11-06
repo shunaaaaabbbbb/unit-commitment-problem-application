@@ -60,3 +60,22 @@ class InputData(BaseModel):
     generator_parameters: list[GeneratorParameters] = Field(
         ..., description="発電機パラメータ"
     )
+
+
+class DailySchedule(BaseModel):
+    date: datetime = Field(..., description="日付 (YYYY-MM-DD)")
+    generator_id: str = Field(..., description="発電機ID")
+    start: int = Field(..., description="起動状態 (0: 停止, 1: 起動)")
+    stop: int = Field(..., description="停止状態 (0: 停止, 1: 停止)")
+    operation: int = Field(..., description="稼働状態 (0: 停止, 1: 稼働)")
+    output: float = Field(..., description="出力 (MW)")
+    cost: float = Field(..., description="コスト (円)")
+
+
+class StructuredOutput(BaseModel):
+    schedules: list[DailySchedule] = Field(..., description="日次スケジュール")
+    total_cost: float = Field(..., description="合計コスト (円)")
+    total_output: float = Field(..., description="合計出力 (MW)")
+    total_operation_days: int = Field(..., description="合計稼働日数")
+    total_start_days: int = Field(..., description="合計起動日数")
+    total_stop_days: int = Field(..., description="合計停止日数")
