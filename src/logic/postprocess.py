@@ -1,15 +1,16 @@
 from src.models.solver import Solver
 from src.schemas.data_schema import DailySchedule, StructuredOutput
+from src.utils.safe_cast import ensure_type
 
 
 def create_schedules(solver: Solver) -> list[DailySchedule]:
     schedules = []
     for t in range(solver.num_timeseries):
         for p in range(solver.num_units):
-            start = int(solver.start[t, p].value())
-            stop = int(solver.stop[t, p].value())
-            operation = int(solver.operation[t, p].value())
-            output = float(solver.output[t, p].value())
+            start = ensure_type(solver.start[t, p].value(), int)
+            stop = ensure_type(solver.stop[t, p].value(), int)
+            operation = ensure_type(solver.operation[t, p].value(), int)
+            output = ensure_type(solver.output[t, p].value(), float)
             cost = (
                 solver.cost_runs[p] * output
                 + solver.cost_starts[p] * start
