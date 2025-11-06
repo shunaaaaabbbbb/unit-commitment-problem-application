@@ -12,7 +12,8 @@ repos:
     rev: v1.11.2
     hooks:
       - id: mypy
-
+        additional_dependencies:
+          - pydantic>=2.0
   # General File Hygiene
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
