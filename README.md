@@ -27,7 +27,7 @@ It reads demand and generator parameter data from CSV files, structures them wit
     ```bash
     uv run python app.py
     ```
-    The results will be saved in the `output/<timestamp>/ ` directory.
+    The results will be saved in the `output/<timestamp>/` directory.
 
 ## Directory Structure
 ```
@@ -65,7 +65,7 @@ unit-commitment-problem-application/
 # 発電スケジューリング最適化モデル
 
 ## 概要
-本アプリケーションは、単純化した起動停止問題（Unit Commitment Problem）を解くことで、複数発電機の最適運用スケジュールを生成する。需要や設備パラメータのCSVを読み込み、Pydanticで構造化し、PuLPで混合整数最適化モデルを構築して解き、結果を可視化する処理まで一貫して行います。
+本アプリケーションは、単純化した起動停止問題（Unit Commitment Problem）を解くことで、複数発電機の最適運用スケジュールを生成する。需要や設備パラメータのCSVを読み込み、Pydanticで構造化し、PuLPで混合整数最適化モデルを構築して解き、結果を可視化する処理まで一貫して行う。
 
 ## 使用技術
 - Python (3.10以上)
@@ -85,7 +85,7 @@ unit-commitment-problem-application/
    ```bash
    uv run python app.py
    ```
-   結果は `output/<timestamp>/` に保存。
+   結果は `output/<timestamp>/` に保存
 
 ## ディレクトリ構成
 ```
