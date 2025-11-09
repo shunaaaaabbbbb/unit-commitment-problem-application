@@ -20,8 +20,9 @@ class Solver:
         self.min_operation_times = [
             generator.min_operation_time for generator in self.generator_parameters
         ]
-        self.max_operation_times = [
-            generator.max_operation_time for generator in self.generator_parameters
+
+        self.min_down_times = [
+            generator.min_down_time for generator in self.generator_parameters
         ]
         self.pmins = [generator.pmin for generator in self.generator_parameters]
         self.pmaxs = [generator.pmax for generator in self.generator_parameters]
@@ -31,6 +32,10 @@ class Solver:
         ]
         self.cost_stops = [
             generator.cost_stop for generator in self.generator_parameters
+        ]
+        self.ramp_ups = [generator.ramp_up for generator in self.generator_parameters]
+        self.ramp_downs = [
+            generator.ramp_down for generator in self.generator_parameters
         ]
 
     def build_model(self) -> None:
@@ -86,12 +91,9 @@ class Solver:
 
         # 停止したら最低でもβ期間は連続停止
         for p in range(self.num_units):
-            for t in range(self.max_operation_times[p], self.num_timeseries):
+            for t in range(self.min_down_times[p], self.num_timeseries):
                 self.model += (
-                    lpSum(
-                        self.stop[s, p]
-                        for s in range(t - self.max_operation_times[p], t)
-                    )
+                    lpSum(self.stop[s, p] for s in range(t - self.min_down_times[p], t))
                     <= 1 - self.operation[t, p]
                 )
 
@@ -107,6 +109,16 @@ class Solver:
                 lpSum(self.output[t, p] for p in range(self.num_units))
                 >= self.timeseries[t].demand
             )
+
+        # 各発電機のランプアップ・ランプダウン制約
+        for p in range(self.num_units):
+            for t in range(1, self.num_timeseries):
+                self.model += (
+                    self.output[t, p] - self.output[t - 1, p] <= self.ramp_ups[p]
+                )
+                self.model += (
+                    self.output[t - 1, p] - self.output[t, p] <= self.ramp_downs[p]
+                )
 
     def add_objective(self) -> None:
         # 総コストを最小化

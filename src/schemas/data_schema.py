@@ -17,7 +17,9 @@ class GeneratorParameters(BaseModel):
     cost_start: float = Field(..., description="起動コスト (円/回)")
     cost_stop: float = Field(..., description="停止コスト (円/回)")
     min_operation_time: int = Field(..., description="最低稼働期間 (時間)")
-    max_operation_time: int = Field(..., description="最大稼働期間 (時間)")
+    min_down_time: int = Field(..., description="最低休止期間 (時間)")
+    ramp_up: float = Field(..., description="ランプアップ量 (MW/時間)")
+    ramp_down: float = Field(..., description="ランプダウン量 (MW/時間)")
 
     @field_validator("pmin")
     @classmethod

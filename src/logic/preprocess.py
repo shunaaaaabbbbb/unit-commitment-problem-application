@@ -26,7 +26,9 @@ def preprocess_generator_parameters(
         cost_start = float(row["cost_start"])
         cost_stop = float(row["cost_stop"])
         min_operation_time = int(row["min_operation_time"])
-        max_operation_time = int(row["max_operation_time"])
+        min_down_time = int(row["min_down_time"])
+        ramp_up = float(row["ramp_up"])
+        ramp_down = float(row["ramp_down"])
         generator_parameters = GeneratorParameters(
             generator_id=generator_id,
             pmin=pmin,
@@ -35,7 +37,9 @@ def preprocess_generator_parameters(
             cost_start=cost_start,
             cost_stop=cost_stop,
             min_operation_time=min_operation_time,
-            max_operation_time=max_operation_time,
+            min_down_time=min_down_time,
+            ramp_up=ramp_up,
+            ramp_down=ramp_down,
         )
         parameters_list.append(generator_parameters)
     return parameters_list
