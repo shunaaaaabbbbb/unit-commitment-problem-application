@@ -64,7 +64,6 @@ class InputData(BaseModel):
 
 class DailySchedule(BaseModel):
     date: datetime = Field(..., description="日付 (YYYY-MM-DD)")
-    generator_id: str = Field(..., description="発電機ID")
     start: int = Field(..., description="起動状態 (0: 停止, 1: 起動)")
     stop: int = Field(..., description="停止状態 (0: 停止, 1: 停止)")
     operation: int = Field(..., description="稼働状態 (0: 停止, 1: 稼働)")
@@ -72,10 +71,28 @@ class DailySchedule(BaseModel):
     cost: float = Field(..., description="コスト (円)")
 
 
-class StructuredOutput(BaseModel):
+class GeneratorOutput(BaseModel):
+    generator_id: str = Field(..., description="発電機ID")
     schedules: list[DailySchedule] = Field(..., description="日次スケジュール")
-    total_cost: float = Field(..., description="合計コスト (円)")
-    total_output: float = Field(..., description="合計出力 (MW)")
-    total_operation_days: int = Field(..., description="合計稼働日数")
-    total_start_days: int = Field(..., description="合計起動日数")
-    total_stop_days: int = Field(..., description="合計停止日数")
+    generator_cost: float = Field(..., description="発電機のコスト (円)")
+    generator_output: float = Field(..., description="発電機の出力 (MW)")
+    generator_operation_days: int = Field(
+        ..., description="発電機の稼働状態 (0: 停止, 1: 稼働)"
+    )
+    generator_start_days: int = Field(
+        ..., description="発電機の起動状態 (0: 停止, 1: 起動)"
+    )
+    generator_stop_days: int = Field(
+        ..., description="発電機の停止状態 (0: 停止, 1: 停止)"
+    )
+
+
+class OverallOutput(BaseModel):
+    generator_outputs: list[GeneratorOutput] = Field(
+        ..., description="全発電機のアウトプット"
+    )
+    overall_cost: float = Field(..., description="合計コスト (円)")
+    overall_output: float = Field(..., description="合計出力 (MW)")
+    overall_operation_days: int = Field(..., description="合計稼働日数")
+    overall_start_days: int = Field(..., description="合計起動日数")
+    overall_stop_days: int = Field(..., description="合計停止日数")

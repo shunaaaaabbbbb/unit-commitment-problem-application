@@ -118,6 +118,6 @@ class Solver:
             for t in range(self.num_timeseries)
         )
 
-    def solve(self) -> LpProblem:
-        self.model.solve(PULP_CBC_CMD(msg=False, logPath="output/solver.log"))
+    def solve(self, output_dir: str) -> LpProblem:
+        self.model.solve(PULP_CBC_CMD(msg=False, logPath=f"{output_dir}/solver.log"))
         return self.model
