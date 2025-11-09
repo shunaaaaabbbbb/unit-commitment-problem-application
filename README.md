@@ -1,53 +1,119 @@
-# 🔥 Unit Commitment Problem Solver (Basic Edition)
+# Power Plant Scheduling Optimization Model
+![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
+![PuLP](https://img.shields.io/badge/PuLP-MILP%20modeler-orange)
+![uv](https://img.shields.io/badge/env-uv%20managed-blueviolet)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Optimization](https://img.shields.io/badge/topic-Unit%20Commitment%20Problem-blue)
 
-This project optimizes the **operation schedule of multiple generators** to meet daily power demand while minimizing total cost.  
-It implements the **basic Unit Commitment Problem (UCP)** using [PuLP](https://coin-or.github.io/pulp/) and outputs both numerical results and visualizations.
+*(日本語verは下にあります / See below for Japanese)*
+## Overview
+This application solves a simplified **Unit Commitment Problem (UCP)** to generate optimal operation schedules for multiple power plants.
+It reads demand and generator parameter data from CSV files, structures them with **Pydantic**, formulates and solves a **Mixed Integer Linear Programming (MILP)** model using **PuLP**, and provides a complete pipeline from preprocessing to visualization of the results.
 
-> 💡 日本語補足  
-> 発電機の起動・停止スケジュールを最適化する数理最適化アプリケーションです。  
-> 需要を満たしつつ、稼働コスト・起動コスト・停止コストの合計を最小化します。
+## Tech Stack
+- Python (3.10+)
+- PuLP (optimization modeling & solver)
+- Pandas / NumPy (data processing)
+- Matplotlib / Plotly (visualization)
+- Pydantic v2 (data schema management)
+- uv (environment setup & dependency management)
 
----
+## How to Run
+1. Clone the repository.
+2. Install dependencies using **uv**:
+   ```bash
+   uv sync
+3. Run the main script:
+    ```bash
+    uv run python app.py
+    ```
+    The results will be saved in the `output/<timestamp>/` directory.
 
-## 🧩 Features
-
-- Mathematical optimization for the **basic UCP formulation**
-- Input data handled as simple CSVs
-- Minimizes total cost = running + startup + shutdown
-- Clean modular design (I/O, preprocessing, modeling, visualization)
-- Ready for future extensions (constraints, UI, emissions, etc.)
-
----
-
-## 🧱 Directory Structure
-
+## Directory Structure
 ```
 unit-commitment-problem-application/
+├── app.py
 ├── data/
-│ ├── demand.csv # Daily power demand
-│ └── furnace_params.csv # Generator parameters
-│
-├── models/
-│ └── ucp_basic.py # PuLP-based mathematical model
-│
-├── pipelines/
-│ └── run_ucp_pipeline.py # End-to-end execution pipeline
-│
-├── utils/
-│ ├── io_handler.py # Data I/O
-│ ├── preprocess.py # Data preparation
-│ ├── postprocess.py # Output processing
-│ └── visualize.py # Visualization functions
-│
+│   ├── demand_sample.csv
+│   └── generator_parameters_sample.csv
 ├── output/
-│ ├── schedule.csv # Optimal schedule (per generator/day)
-│ ├── summary.csv # Summary of cost and utilization
-│ └── charts/
-│ ├── output_vs_demand.png # Output vs. demand line chart
-│ └── cost_trend.png # Daily cost trend
-│
-├── app.py # Entry point (CLI)
-├── requirements.txt # Dependencies
-└── LICENSE # MIT License
+│   └── <timestamp>/
+│       ├── demand_vs_generation.png
+│       └── solver.log
+├── src/
+│   ├── logic/
+│   │   ├── postprocess.py
+│   │   ├── preprocess.py
+│   │   └── visualize.py
+│   ├── models/
+│   │   └── solver.py
+│   ├── pipelines/
+│   │   ├── create_output.py
+│   │   ├── run_optimization.py
+│   │   ├── run_postprocess.py
+│   │   └── run_preprocess.py
+│   ├── schemas/
+│   │   └── data_schema.py
+│   └── utils/
+│       └── safe_cast.py
+├── pyproject.toml
+└── README.md
+```
 
+---
+
+# 発電スケジューリング最適化モデル
+
+## 概要
+本アプリケーションは、単純化した起動停止問題（Unit Commitment Problem）を解くことで、複数発電機の最適運用スケジュールを生成する。需要や設備パラメータのCSVを読み込み、Pydanticで構造化し、PuLPで混合整数最適化モデルを構築して解き、結果を可視化する処理まで一貫して行う。
+
+## 使用技術
+- Python (3.10以上)
+- PuLP（最適化モデリング & ソルバー）
+- Pandas / NumPy（データ処理）
+- Matplotlib / Plotly（静的可視化）
+- Pydantic v2（データスキーマ管理）
+- uv（環境構築・依存関係管理）
+
+## 実行方法
+1. リポジトリのクローン
+2. uvを用いた依存関係のインストール
+   ```bash
+   uv sync
+   ```
+3. スクリプトの実行
+   ```bash
+   uv run python app.py
+   ```
+   結果は `output/<timestamp>/` に保存
+
+## ディレクトリ構成
+```
+unit-commitment-problem-application/
+├── app.py
+├── data/
+│   ├── demand_sample.csv
+│   └── generator_parameters_sample.csv
+├── output/
+│   └── <timestamp>/
+│       ├── demand_vs_generation.png
+│       └── solver.log
+├── src/
+│   ├── logic/
+│   │   ├── postprocess.py
+│   │   ├── preprocess.py
+│   │   └── visualize.py
+│   ├── models/
+│   │   └── solver.py
+│   ├── pipelines/
+│   │   ├── create_output.py
+│   │   ├── run_optimization.py
+│   │   ├── run_postprocess.py
+│   │   └── run_preprocess.py
+│   ├── schemas/
+│   │   └── data_schema.py
+│   └── utils/
+│       └── safe_cast.py
+├── pyproject.toml
+└── README.md
 ```
